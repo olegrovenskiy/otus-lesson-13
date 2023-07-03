@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "otus-lesson-13/1.0.0": {
+        "runtime": {
+          "otus-lesson-13.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "otus-lesson-13/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
