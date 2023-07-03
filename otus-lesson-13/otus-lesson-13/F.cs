@@ -1,3 +1,5 @@
+
+[Serializable]
 public class F
 {
 

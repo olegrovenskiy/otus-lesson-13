@@ -5,12 +5,17 @@ using System.IO;
 using System.Text;
 using System.Runtime.ConstrainedExecution;
 using System.Diagnostics;
+using System.Text.Json;
 
 Console.WriteLine("Hello, World!");
 
 string path = @"C:\Users\o.rovenskiy\source\repos\otus-lesson-13\otus-lesson-13\otus-lesson-13\ser.csv";
+string pathBinary = @"C:\Users\o.rovenskiy\source\repos\otus-lesson-13\otus-lesson-13\otus-lesson-13\ser.json";
+
+
 var dd = new F() { i1 = 1, i2 = 2, i3 = 3, i4 = 4, i5 = 5 };
 
+// Tasks from  1 to 8 
 
 Stopwatch stopwatch = new Stopwatch();
 //засекаем время начала операции
@@ -26,7 +31,7 @@ for (int i = 0; i < 10000; i++)
 
 stopwatch.Stop();
 //смотрим сколько миллисекунд было затрачено на выполнение
-Console.WriteLine("Time   " + stopwatch.ElapsedMilliseconds + "msec");
+Console.WriteLine("Time  for CSV serialization " + stopwatch.ElapsedMilliseconds + "msec");
 
 
 
@@ -44,6 +49,36 @@ using (FileStream fstream = File.OpenRead(path))
 }
 stopwatch.Stop();
 //смотрим сколько миллисекунд было затрачено на выполнение
-Console.WriteLine("Time   " + stopwatch.ElapsedMilliseconds + "msec");
+Console.WriteLine("Time for console output  " + stopwatch.ElapsedMilliseconds + "msec");
+
+
+stopwatch.Reset();
+stopwatch.Start();
+
+for (int i = 0; i < 10000; i++)
+{
+    using (FileStream fs = new FileStream(pathBinary, FileMode.OpenOrCreate))
+    {
+
+        await JsonSerializer.SerializeAsync<F>(fs, dd);
+      //  Console.WriteLine("JSON Data has been saved to file");
+    }
+}
+
+stopwatch.Stop();
+//смотрим сколько миллисекунд было затрачено на выполнение
+Console.WriteLine("Time for JSON serialization  " + stopwatch.ElapsedMilliseconds + "msec");
+
+
+
+// Tasks from 9 to 10
+
+
+
+
+
+
+
+
 
 Console.ReadKey();
