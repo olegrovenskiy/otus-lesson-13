@@ -8,16 +8,19 @@ class CsvSerial<T>
 {
 
     public T dd { get; set; }
+    public string Path { get; set; }
 
-    public CsvSerial (T fff)
+    public CsvSerial (T fff, string path)
     {
         dd = fff;
+        Path = path;
+        
     }
 
     public async Task CsvSerializationAsync()
     {
 
-        string path = @"C:\Users\o.rovenskiy\source\repos\otus-lesson-13\otus-lesson-13\otus-lesson-13\ser.csv";
+    //    string path = @"C:\Users\o.rovenskiy\source\repos\otus-lesson-13\otus-lesson-13\otus-lesson-13\ser.csv";
         Type myType = typeof(F);
 
         string ser = "";
@@ -29,22 +32,22 @@ class CsvSerial<T>
             if (j != 0)
                 ser = ser + ", ";
             j++;
-            Console.WriteLine(u.Name);
+            //Console.WriteLine(u.Name);
             var ff = myType.GetProperty(u.Name);
             var ff1 = ff?.GetValue(dd);
-            Console.WriteLine(ff1);
+           // Console.WriteLine(ff1);
             ser = ser + u.Name + "=" + ff1;
         }
 
-        Console.WriteLine(ser);
+       // Console.WriteLine(ser);
 
-        using (FileStream fstream = new FileStream(path, FileMode.OpenOrCreate))
+        using (FileStream fstream = new FileStream(Path, FileMode.OpenOrCreate))
         {
             // преобразуем строку в байты
             byte[] buffer = Encoding.Default.GetBytes(ser);
             // запись массива байтов в файл
             await fstream.WriteAsync(buffer, 0, buffer.Length);
-            Console.WriteLine("Текст записан в файл");
+           // Console.WriteLine("Текст записан в файл");
         }
 
 
