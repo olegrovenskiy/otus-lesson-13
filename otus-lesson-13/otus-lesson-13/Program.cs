@@ -10,7 +10,7 @@ using System.Text.Json;
 Console.WriteLine("Hello, World!");
 
 string path = @"C:\Users\o.rovenskiy\source\repos\otus-lesson-13\otus-lesson-13\otus-lesson-13\ser.csv";
-string pathBinary = @"C:\Users\o.rovenskiy\source\repos\otus-lesson-13\otus-lesson-13\otus-lesson-13\ser.json";
+string pathJson = @"C:\Users\o.rovenskiy\source\repos\otus-lesson-13\otus-lesson-13\otus-lesson-13\ser.json";
 
 
 var dd = new F() { i1 = 1, i2 = 2, i3 = 3, i4 = 4, i5 = 5 };
@@ -57,7 +57,7 @@ stopwatch.Start();
 
 for (int i = 0; i < 10000; i++)
 {
-    using (FileStream fs = new FileStream(pathBinary, FileMode.OpenOrCreate))
+    using (FileStream fs = new FileStream(pathJson, FileMode.OpenOrCreate))
     {
 
         await JsonSerializer.SerializeAsync<F>(fs, dd);
@@ -73,12 +73,42 @@ Console.WriteLine("Time for JSON serialization  " + stopwatch.ElapsedMillisecond
 
 // Tasks from 9 to 10
 
+// Десириализация JSON
+
+stopwatch.Reset();
+stopwatch.Start();
+
+for (int i = 0; i < 10000; i++)
+{
+    using (FileStream fs = new FileStream(pathJson, FileMode.OpenOrCreate))
+    {
+        F? ffJson = await JsonSerializer.DeserializeAsync<F>(fs);
+        // Console.WriteLine($"i1: {ffJson?.i1}  i5: {ffJson?.i5}");
+    }
+}
+stopwatch.Stop();
+//смотрим сколько миллисекунд было затрачено на выполнение
+Console.WriteLine("Time for JSON deserialization  " + stopwatch.ElapsedMilliseconds + "msec");
 
 
 
+// Десириализация CSV
 
+stopwatch.Reset();
+stopwatch.Start();
+for (int i = 0; i < 10000; i++)
+{
+    var ddDesir = new F();
+    CsvSerial<F> test1 = new CsvSerial<F>(ddDesir, path);
+    await test1.CsvDeserializationAsync();
 
+}
 
+stopwatch.Stop();
+//смотрим сколько миллисекунд было затрачено на выполнение
+Console.WriteLine("Time for CSV deserialization  " + stopwatch.ElapsedMilliseconds + "msec");
+
+//.WriteLine("Desir " + ddDesir.i5);
 
 
 Console.ReadKey();
